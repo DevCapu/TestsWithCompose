@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Buscador de CEP</string>
+    <string name="insert_cep_label">Insira seu CEP</string>
+    <string name="search_info">Nós usamos a API dos correios a para buscar dados do seu CEP</string>
+    <string name="cep_label">CEP</string>
+    <string name="search_cep_button">Procurar CEP</string>
+    <string name="error_message">CEP inválido</string>
+    <string name="logradouro_label">Logradouro</string>
+    <string name="complmento_label">Complemento</string>
+    <string name="bairro_label">Bairro</string>
+    <string name="localidade_label">Localidade</string>
+    <string name="uf_label">UF</string>
+    <string name="ddd_label">DDD</string>
+    <string name="result_label">Resultado</string>
+</resources>
