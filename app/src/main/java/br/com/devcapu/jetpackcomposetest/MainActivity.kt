@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,6 +16,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,13 +38,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SearchScreen() {
     var CEP by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf("") }
     var isButtonEnabled by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = { AppBar() },
-    ) {
-        Box(
-            modifier = Modifier
+    Scaffold(topBar = { AppBar() }) {
+        Box(modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color.White)) {
             Column(
@@ -79,9 +81,17 @@ fun SearchScreen() {
                         backgroundColor = Color.Transparent,
                         focusedIndicatorColor = MaterialTheme.colors.primary,
                         focusedLabelColor = MaterialTheme.colors.primary
-                    )
-
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Search
+                    ),
+                    keyboardActions = KeyboardActions(onSearch = { }),
+                    isError = error.isNotEmpty(),
                 )
+                if (error.isNotEmpty()) {
+                    Text(text = error)
+                }
             }
 
             Column(
@@ -92,7 +102,13 @@ fun SearchScreen() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        if (CEP.contains(",") or CEP.contains(".")) {
+                            error ="CEP inválido"
+                        } else {
+                            error = ""
+                        }
+                    },
                     enabled = isButtonEnabled,
                     colors = ButtonDefaults.buttonColors(
                         disabledBackgroundColor = Color(0xFFC7C7C7)
