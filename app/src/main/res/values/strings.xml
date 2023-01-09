@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">JetpackComposeTest</string>
+    <string name="app_name">Buscador de CEP</string>
+    <string name="insert_cep_label">Insira seu CEP</string>
+    <string name="search_info">Nós usamos a API dos correios a para buscar dados do seu CEP</string>
+    <string name="cep_label">CEP</string>
+    <string name="search_cep_button">Procurar CEP</string>
 </resources>

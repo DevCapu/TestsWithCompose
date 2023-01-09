@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +39,9 @@ fun SearchScreen() {
         topBar = { AppBar() },
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().background(color = Color.White)) {
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -46,12 +49,12 @@ fun SearchScreen() {
                     .padding(horizontal = 16.dp)
             ) {
                 Text(
-                    text = "Insira seu CEP",
+                    text = stringResource(R.string.insert_cep_label),
                     style = MaterialTheme.typography.h4
                 )
 
                 Text(
-                    text = "Lorem ipsum dolor sit amet",
+                    text = stringResource(R.string.search_info),
                     style = MaterialTheme.typography.body1
                 )
 
@@ -63,7 +66,7 @@ fun SearchScreen() {
                     onValueChange = { CEP = it },
                     label = {
                         Text(
-                            text = "CEP",
+                            text = stringResource(R.string.cep_label),
                             style = MaterialTheme.typography.caption
                         )
                     },
@@ -93,7 +96,7 @@ fun SearchScreen() {
                 ) {
                     Text(
                         modifier = Modifier.padding(8.dp),
-                        text = "Procurar CEP",
+                        text = stringResource(R.string.search_cep_button),
                         style = MaterialTheme.typography.body2,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -118,7 +121,7 @@ private fun AppBar() {
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Buscador de CEP",
+            text = stringResource(id = R.string.app_name),
             textAlign = Center,
             style = MaterialTheme.typography.body2
         )
