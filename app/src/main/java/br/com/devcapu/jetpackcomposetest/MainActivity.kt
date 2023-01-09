@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.devcapu.jetpackcomposetest.extensions.isAValidCep
 import br.com.devcapu.jetpackcomposetest.ui.theme.JetpackComposeTestTheme
 
 class MainActivity : ComponentActivity() {
@@ -63,7 +64,10 @@ fun SearchScreen() {
                         .padding(top = 16.dp)
                         .fillMaxWidth(),
                     value = CEP,
-                    onValueChange = { CEP = it },
+                    onValueChange = {
+                        CEP = it
+                        isButtonEnabled = CEP.isAValidCep()
+                    },
                     label = {
                         Text(
                             text = stringResource(R.string.cep_label),
