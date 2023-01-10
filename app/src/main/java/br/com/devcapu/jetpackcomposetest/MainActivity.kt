@@ -103,7 +103,7 @@ fun SearchScreen() {
                         .fillMaxWidth()
                         .padding(16.dp),
                     onClick = {
-                        if (CEP.contains(",") or CEP.contains(".")) {
+                        if (CEP.contains(",") || CEP.contains(".")) {
                             error ="CEP inválido"
                         } else {
                             error = ""
