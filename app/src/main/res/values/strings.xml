@@ -4,4 +4,5 @@
     <string name="search_info">Nós usamos a API dos correios a para buscar dados do seu CEP</string>
     <string name="cep_label">CEP</string>
     <string name="search_cep_button">Procurar CEP</string>
+    <string name="error_message">CEP inválido</string>
 </resources>

@@ -24,27 +24,48 @@ import androidx.compose.ui.unit.dp
 import br.com.devcapu.jetpackcomposetest.extensions.isAValidCep
 import br.com.devcapu.jetpackcomposetest.ui.theme.JetpackComposeTestTheme
 
+data class UiState(
+    val cep: String = "",
+    val isShowingError: Boolean = false,
+    var isButtonEnabled: Boolean = false,
+)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            var state by remember { mutableStateOf(UiState()) }
             JetpackComposeTestTheme {
-                SearchScreen()
+                SearchScreen(
+                    uiState = state,
+                    onCepChanged = {
+                        state = state.copy(
+                            cep = it,
+                            isButtonEnabled = state.cep.isAValidCep()
+                        )
+                    },
+                    onButtonClicked = {
+                        val cep = state.cep
+                        state = state.copy(
+                            isShowingError = cep.contains(",") || cep.contains(".")
+                        )
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun SearchScreen() {
-    var CEP by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf("") }
-    var isButtonEnabled by remember { mutableStateOf(false) }
-
+fun SearchScreen(
+    uiState: UiState,
+    onCepChanged: (String) -> Unit,
+    onButtonClicked: () -> Unit,
+) {
     Scaffold(topBar = { AppBar() }) {
         Box(modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)) {
+            .fillMaxSize()
+            .background(color = Color.White)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,11 +86,8 @@ fun SearchScreen() {
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth(),
-                    value = CEP,
-                    onValueChange = {
-                        CEP = it
-                        isButtonEnabled = CEP.isAValidCep()
-                    },
+                    value = uiState.cep,
+                    onValueChange = onCepChanged,
                     label = {
                         Text(
                             text = stringResource(R.string.cep_label),
@@ -86,11 +104,11 @@ fun SearchScreen() {
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Search
                     ),
-                    keyboardActions = KeyboardActions(onSearch = { }),
-                    isError = error.isNotEmpty(),
+                    keyboardActions = KeyboardActions(onSearch = { onButtonClicked() }),
+                    isError = uiState.isShowingError,
                 )
-                if (error.isNotEmpty()) {
-                    Text(text = error)
+                if (uiState.isShowingError) {
+                    Text(text = stringResource(R.string.error_message))
                 }
             }
 
@@ -102,14 +120,8 @@ fun SearchScreen() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    onClick = {
-                        if (CEP.contains(",") || CEP.contains(".")) {
-                            error ="CEP inválido"
-                        } else {
-                            error = ""
-                        }
-                    },
-                    enabled = isButtonEnabled,
+                    onClick = onButtonClicked,
+                    enabled = uiState.isButtonEnabled,
                     colors = ButtonDefaults.buttonColors(
                         disabledBackgroundColor = Color(0xFFC7C7C7)
                     )
@@ -155,6 +167,10 @@ private fun AppBar() {
 @Composable
 fun DefaultPreview() {
     JetpackComposeTestTheme {
-        SearchScreen()
+        SearchScreen(
+            uiState = UiState(),
+            onCepChanged = {},
+            onButtonClicked = {}
+        )
     }
 }
