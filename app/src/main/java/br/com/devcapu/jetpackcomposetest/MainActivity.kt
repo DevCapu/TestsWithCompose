@@ -22,7 +22,9 @@ import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.devcapu.jetpackcomposetest.extensions.isAValidCep
+import br.com.devcapu.jetpackcomposetest.ui.theme.Disabled
 import br.com.devcapu.jetpackcomposetest.ui.theme.JetpackComposeTestTheme
+import br.com.devcapu.jetpackcomposetest.ui.theme.White
 
 data class UiState(
     val cep: String = "",
@@ -63,9 +65,7 @@ fun SearchScreen(
     onButtonClicked: () -> Unit,
 ) {
     Scaffold(topBar = { AppBar() }) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)) {
+        Box(modifier = Modifier.fillMaxSize().background(color = White)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -83,9 +83,7 @@ fun SearchScreen(
                 )
 
                 TextField(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
                     value = uiState.cep,
                     onValueChange = onCepChanged,
                     label = {
@@ -123,7 +121,7 @@ fun SearchScreen(
                     onClick = onButtonClicked,
                     enabled = uiState.isButtonEnabled,
                     colors = ButtonDefaults.buttonColors(
-                        disabledBackgroundColor = Color(0xFFC7C7C7)
+                        disabledBackgroundColor = Disabled
                     )
                 ) {
                     Text(
@@ -131,7 +129,7 @@ fun SearchScreen(
                         text = stringResource(R.string.search_cep_button),
                         style = MaterialTheme.typography.body2,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = White
                     )
                 }
             }
