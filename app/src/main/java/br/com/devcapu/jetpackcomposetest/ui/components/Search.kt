@@ -16,12 +16,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import br.com.devcapu.jetpackcomposetest.R
-import br.com.devcapu.jetpackcomposetest.UiState
+import br.com.devcapu.jetpackcomposetest.SearchUiState
 
 
 @Composable
 fun SearchSection(
-    uiState: UiState,
+    uiState: SearchUiState,
     onCepChanged: (String) -> Unit,
     onButtonClicked: () -> Unit,
 ) {

@@ -1,10 +1,22 @@
 package br.com.devcapu.jetpackcomposetest
 
-import br.com.devcapu.jetpackcomposetest.data.Result
-
 data class UiState(
+    val searchUiState: SearchUiState = SearchUiState(),
+    var isButtonEnabled: Boolean = false,
+    var result: ResultUiState? = null,
+)
+
+data class SearchUiState(
     val cep: String = "",
     val isShowingError: Boolean = false,
-    var isButtonEnabled: Boolean = false,
-    var result: Result? = null,
+)
+
+data class ResultUiState(
+    val cep: String,
+    val logradrouro: String,
+    val complemento: String,
+    val bairro: String,
+    val localidade: String,
+    val uf: String,
+    val ddd: String,
 )

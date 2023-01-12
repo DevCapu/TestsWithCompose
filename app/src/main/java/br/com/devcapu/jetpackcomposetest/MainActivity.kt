@@ -14,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.devcapu.jetpackcomposetest.data.CepRepository
-import br.com.devcapu.jetpackcomposetest.data.Result
 import br.com.devcapu.jetpackcomposetest.extensions.isAValidCep
 import br.com.devcapu.jetpackcomposetest.ui.components.AppBar
 import br.com.devcapu.jetpackcomposetest.ui.components.ResultsFromSearch
@@ -32,7 +31,11 @@ class MainActivity : ComponentActivity() {
                 SearchScreen(
                     uiState = state,
                     onCepChanged = {
-                        state = state.copy(cep = it, isButtonEnabled = it.isAValidCep())
+                        val searchUiState = SearchUiState(cep = it)
+                        state = state.copy(
+                            searchUiState = searchUiState,
+                            isButtonEnabled = it.isAValidCep()
+                        )
                     },
                     onButtonClicked = {
                         state = search(state)
@@ -43,14 +46,20 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun search(state: UiState): UiState {
-        val cep = state.cep
+        val cep = state.searchUiState.cep
         val showError = cep.contains(",") || cep.contains(".")
         return if (showError) {
-            state.copy(isShowingError = showError)
-        } else {
+            val searchUiState = state.searchUiState.copy(isShowingError = true)
             state.copy(
-                result = CepRepository().search(cep),
-                isShowingError = false
+                searchUiState = searchUiState,
+                result = null
+            )
+        } else {
+            val searchUiStateWithoutError = state.searchUiState.copy(isShowingError = false)
+            val resultUiState = CepRepository().search(cep)
+            state.copy(
+                searchUiState = searchUiStateWithoutError,
+                result = resultUiState,
             )
         }
     }
@@ -73,7 +82,7 @@ fun SearchScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 SearchSection(
-                    uiState = uiState,
+                    uiState = uiState.searchUiState,
                     onCepChanged = onCepChanged,
                     onButtonClicked = onButtonClicked
                 )
@@ -110,20 +119,36 @@ fun SearchScreen(
     showSystemUi = true
 )
 @Composable
-fun DefaultPreview() {
+fun WithResult() {
     JetpackComposeTestTheme {
         SearchScreen(
             uiState = UiState(
-                result = Result(
-                    "",
-                    "Rua dos bobos",
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""
+                isButtonEnabled = true,
+                result = ResultUiState(
+                    cep = "01001-000",
+                    logradrouro = "Rua dos Bobos",
+                    complemento = "lado ímpar",
+                    bairro = "Sé",
+                    localidade = "São Paulo",
+                    uf = "SP",
+                    ddd = "11"
                 )
             ),
+            onCepChanged = {},
+            onButtonClicked = {},
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun WithoutResult() {
+    JetpackComposeTestTheme {
+        SearchScreen(
+            uiState = UiState(result = null),
             onCepChanged = {},
             onButtonClicked = {},
         )

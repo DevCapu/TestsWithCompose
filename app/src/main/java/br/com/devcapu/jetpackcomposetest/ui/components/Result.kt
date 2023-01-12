@@ -11,10 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.devcapu.jetpackcomposetest.R
-import br.com.devcapu.jetpackcomposetest.data.Result
+import br.com.devcapu.jetpackcomposetest.ResultUiState
 
 @Composable
-fun ResultsFromSearch(result: Result) {
+fun ResultsFromSearch(result: ResultUiState) {
     Text(
         modifier = Modifier
             .fillMaxWidth()

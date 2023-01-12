@@ -1,9 +1,11 @@
 package br.com.devcapu.jetpackcomposetest.data
 
+import br.com.devcapu.jetpackcomposetest.ResultUiState
+
 class CepRepository {
 
     fun search(cep: String) =
-        Result(
+        ResultUiState(
             cep = "01001-000",
             logradrouro = "Rua dos Bobos",
             complemento = "lado ímpar",
@@ -13,13 +15,3 @@ class CepRepository {
             ddd = "11"
         )
 }
-
-data class Result(
-    val cep: String,
-    val logradrouro: String,
-    val complemento: String,
-    val bairro: String,
-    val localidade: String,
-    val uf: String,
-    val ddd: String,
-)
